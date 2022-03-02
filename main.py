@@ -3,31 +3,36 @@ import requests
 
 
 class YaUploader:
-    def __init__(self, token: str):
+    def __init__(self, token):
         self.token = token
+        
+    def get_headers(self):
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': 'OAuth {}'.format(self.token)
+        }
     
     def _get_upload_link(self, file_path):
-        upload_url = ""
-        heders = self.get_heders()
+        upload_url = "http://cloud-api.yandex.net/v1/disk/resources/upload"
+        headers = self.get_headers()
         params = {"path": file_path, "owerwrite": "true"}
-        response = requests.get(upload_url, heders=heders, params=params)
+        response = requests.get(upload_url, headers=headers, params=params)
         pprint(response.json())
+        pprint(headers)
         return response.json()
 
-    def upload(self, file_path: str, file_name: str):
+    def upload(self, file_path, file_name):
         href = self._get_upload_link(file_path=file_path).get("href", "")
         response = requests.put(href, data=open(file_name, "rb"))
         response.raise_for_status()
         if response.status_code == 201:
             print("Success")
-        """Метод загружает файлы по списку file_list на яндекс диск"""
-        # Тут ваша логика
-        # Функция может ничего не возвращать
+
 
 
 if __name__ == '__main__':
-    # Получить путь к загружаемому файлу и токен от пользователя
-    path_to_file = ...
-    token = ...
+    path_to_file = "C:/Users/birulya.i/Desktop/Python/Netology/Ydisk/test.txt"
+    file_name = "test.txt" 
+    token = "AQAAAAAi7pwUAADLW9-DYE8jcUHYrzx-rc1e80k"
     uploader = YaUploader(token)
-    result = uploader.upload(path_to_file)
+    uploader.upload(path_to_file, file_name)
