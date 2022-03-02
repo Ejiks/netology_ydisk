@@ -31,8 +31,9 @@ class YaUploader:
 
 
 if __name__ == '__main__':
-    path_to_file = "C:/Users/birulya.i/Desktop/Python/Netology/Ydisk/test.txt"
-    file_name = "test.txt" 
+#путь к файлу, имя файла и токен из кода исключены
+    path_to_file = ""
+    file_name = "" 
     token = ""
     uploader = YaUploader(token)
     uploader.upload(path_to_file, file_name)
